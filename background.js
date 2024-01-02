@@ -40,4 +40,4 @@ browser.windows.onFocusChanged.addListener(windowId => {
       }
     }
   }
-}, { windowTypes: ['normal'] });
+});
