@@ -41,3 +41,33 @@ browser.windows.onFocusChanged.addListener(windowId => {
     }
   }
 });
+
+function handleTabMove(currentTab) {
+  let state = getState();
+  if (state) {
+    setState(null);
+  } else {
+    browser.tabs.query({ currentWindow: true, highlighted: true },
+      highlightedTabs => {
+        setState({
+          tabs: highlightedTabs.map(tab => tab.id),
+          currentTab: currentTab.id,
+          window: currentTab.windowId
+        });
+      });
+  }
+}
+
+// Existing onClicked listener
+browser.browserAction.onClicked.addListener(handleTabMove);
+
+// Add command listener
+browser.commands.onCommand.addListener((command) => {
+  if (command === "move-tabs") {
+    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        handleTabMove(tabs[0]);
+      }
+    });
+  }
+});
