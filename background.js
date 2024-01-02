@@ -3,21 +3,21 @@
 let setState = state => {
   if (state === null) {
     sessionStorage.removeItem('state');
-    chrome.browserAction.setBadgeText({ text: '' });
+    browser.browserAction.setBadgeText({ text: '' });
   } else {
     sessionStorage.setItem('state', JSON.stringify(state));
-    chrome.browserAction.setBadgeText({ text: '?' });
+    browser.browserAction.setBadgeText({ text: '?' });
   }
 };
 
 let getState = () => JSON.parse(sessionStorage.getItem('state'));
 
-chrome.browserAction.onClicked.addListener(currentTab => {
+browser.browserAction.onClicked.addListener(currentTab => {
   let state = getState();
   if (state) {
     setState(null);
   } else {
-    chrome.tabs.query({ currentWindow: true, highlighted: true },
+    browser.tabs.query({ currentWindow: true, highlighted: true },
       highlightedTabs => {
         setState({
           tabs: highlightedTabs.map(tab => tab.id),
@@ -28,14 +28,14 @@ chrome.browserAction.onClicked.addListener(currentTab => {
   }
 });
 
-chrome.windows.onFocusChanged.addListener(windowId => {
-  if (windowId != chrome.windows.WINDOW_ID_NONE) {
+browser.windows.onFocusChanged.addListener(windowId => {
+  if (windowId != browser.windows.WINDOW_ID_NONE) {
     let state = getState();
     if (state) {
       if (windowId != state.window) {
         setState(null);
-        chrome.tabs.move(state.tabs, { windowId: windowId, index: -1 }, () => {
-          chrome.tabs.update(state.currentTab, { active: true });
+        browser.tabs.move(state.tabs, { windowId: windowId, index: -1 }, () => {
+          browser.tabs.update(state.currentTab, { active: true });
         });
       }
     }
