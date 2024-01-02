@@ -15,8 +15,8 @@
   "commands": {
     "move-tabs": {
       "suggested_key": {
-        "default": "Ctrl+Shift+E",
-        "mac": "Ctrl+Shift+E"
+        "default": "MacCtrl+Shift+E",
+        "mac": "MacCtrl+Shift+E"
       },
       "description": "Move tabs to another window"
     }
