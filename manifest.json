@@ -12,6 +12,15 @@
   "browser_action": {
     "default_title": "Move tabs to another window"
   },
+  "commands": {
+    "move-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Ctrl+Shift+E"
+      },
+      "description": "Move tabs to another window"
+    }
+  },
   "permissions": [
     "tabs"
   ]
